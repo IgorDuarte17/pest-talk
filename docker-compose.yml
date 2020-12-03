@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  # PHP Service
+  php-fpm:
+    build: ./.docker/php
+    container_name: pest-talk-php
+    labels:
+      - php
+    environment:
+      - COMPOSER_MEMORY_LIMIT=2G
+    volumes:
+      - .:/var/www
+    networks:
+      - pest-talk-network
+
+  # Nginx Server
+  nginx:
+    build: ./.docker/nginx
+    container_name: pest-talk-nginx
+    labels:
+      - webserver
+    depends_on:
+      - php-fpm
+    volumes:
+      - ./.docker/nginx/:/etc/nginx/conf.d
+      - .:/var/www
+    ports:
+      - 80:80
+    networks:
+      - pest-talk-network
+
+# Docker Networks
+networks:
+  pest-talk-network:
+    driver: bridge
