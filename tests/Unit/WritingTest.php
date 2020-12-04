@@ -1,6 +1,6 @@
 <?php
 
-    test('asserts true is true', function () {
+test('asserts true is true', function () {
         $this->assertTrue(true);
 
         expect(true)->toBeTrue();
@@ -12,3 +12,7 @@
 
         expect(true)->toBeTrue();
     });
+
+    test('validate conferences', function($conference) {
+        $this->assertNotEmpty($conference);
+    })->with('conferences');
